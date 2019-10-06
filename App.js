@@ -1,12 +1,14 @@
 import React, { Component } from "react";
 import { Spinner } from "native-base";
 import HomePage from "./Components/HomePage";
-
+import { Provider } from "react-redux";
+import { setCoffeeShopsLoading } from "./store/actions/coffeeActions";
+import store from "./store";
+import { connect } from "react-redux";
 export default class App extends Component {
   state = {
-    loading: true
+    loading: false
   };
-
   async componentDidMount() {
     await Expo.Font.loadAsync({
       Roboto: require("native-base/Fonts/Roboto.ttf"),
@@ -17,8 +19,16 @@ export default class App extends Component {
 
   render() {
     if (this.state.loading) {
-      return <Spinner color="white" />;
+      return (
+        <Provider store={store}>
+          <Spinner color="white" />
+        </Provider>
+      );
     }
-    return <HomePage />;
+    return (
+      <Provider store={store}>
+        <HomePage />
+      </Provider>
+    );
   }
 }
